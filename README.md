@@ -17,13 +17,15 @@ Soal 2
 - MySQL
 - Buat database dengan nama soal2_db
 - Kemudian jalankan query SQL ini untuk membuat table users
-CREATE TABLE users (
+  
+  CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
   password_user VARCHAR(100) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 - Untuk mengaktifkan koneksi buka dan edit db.js sesuaikan dengan komputer client
 
 ## Jalankan Project
