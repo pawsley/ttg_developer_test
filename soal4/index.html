@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Soal 4 Formula Perhitungan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 24px;
+            background: #f7f7f7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 18px;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 40px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 18px;
+        }
+        label {
+            font-size: 1rem;
+            color: #555;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        input[type="number"] {
+            padding: 10px;
+            margin-top: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input[type="number"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            margin-top: 16px;
+            width: 100%;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #hasil {
+            margin-top: 18px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 24px;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 16px 8px;
+                margin-top: 20px;
+            }
+            body {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Formula Perhitungan</h2>
+
+    <label for="source">Source (pisahkan dengan koma):</label>
+    <input type="text" id="source" placeholder="contoh: 1,4,5,6">
+    <br><br>
+    <label for="target">Target:</label>
+    <input type="number" id="target" placeholder="contoh: 18">
+
+    <button onclick="proses()">Cari Rumus</button>
+    <div id="hasil"></div>
+</div>
+
+    <script>
+        function cariRumus(nums, target) {
+            function helper(arr, expr) {
+                if (arr.length === 1) {
+                    if (arr[0] === target) {
+                        return expr[0];
+                    }
+                    return null;
+                }
+
+                for (let i = 0; i < arr.length; i++) {
+                    for (let j = 0; j < arr.length; j++) {
+                        if (i === j) continue;
+
+                        const sisa = [];
+                        const sisaExpr = [];
+
+                        for (let k = 0; k < arr.length; k++) {
+                            if (k !== i && k !== j) {
+                                sisa.push(arr[k]);
+                                sisaExpr.push(expr[k]);
+                            }
+                        }
+
+                        const a = arr[i];
+                        const b = arr[j];
+                        const ea = expr[i];
+                        const eb = expr[j];
+
+                        const operasi = [
+                            { val: a + b, exp: `(${ea} + ${eb})` },
+                            { val: a - b, exp: `(${ea} - ${eb})` },
+                            { val: a * b, exp: `(${ea} * ${eb})` }
+                        ];
+
+                        for (let op of operasi) {
+                            const hasil = helper(
+                                [...sisa, op.val],
+                                [...sisaExpr, op.exp]
+                            );
+                            if (hasil) return hasil;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            return helper(nums, nums.map(n => n.toString()));
+        }
+
+        function proses() {
+            const sourceInput = document.getElementById("source").value;
+            const target = Number(document.getElementById("target").value);
+
+            const nums = sourceInput.split(",").map(Number);
+            const hasil = cariRumus(nums, target);
+
+            document.getElementById("hasil").innerText =
+                hasil ? "Rumus: " + hasil : "Tidak ditemukan rumus yang sesuai";
+        }
+    </script>
+
+</body>
+</html>

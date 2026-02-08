@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Soal 3 Cari Angka Hilang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 24px;
+            background: #f7f7f7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 18px;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 40px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 18px;
+        }
+        label {
+            font-size: 1rem;
+            color: #555;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            margin-top: 16px;
+            width: 100%;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #hasil {
+            margin-top: 18px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 24px;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 16px 8px;
+                margin-top: 20px;
+            }
+            body {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Cari Angka yang Hilang</h2>
+
+        <label for="inputArray">Masukkan array (pisahkan dengan koma):</label>
+        <input type="text" id="inputArray" placeholder="contoh: 3,0,2,4">
+
+        <button onclick="proses()">Cari</button>
+
+        <div id="hasil"></div>
+    </div>
+
+    <script>
+        function cariAngkaHilang(arr) {
+            arr.sort((a, b) => a - b);
+
+            for (let i = 0; i < arr.length - 1; i++) {
+                if (arr[i + 1] !== arr[i] + 1) {
+                    return arr[i] + 1;
+                }
+            }
+            return "Tidak ada angka hilang";
+        }
+
+        function proses() {
+            const input = document.getElementById("inputArray").value.trim();
+
+            // ubah string ke array number
+            const arrayAngka = input.split(",").map(s => Number(s.trim())).filter(n => !isNaN(n));
+
+            if (arrayAngka.length < 2) {
+                document.getElementById("hasil").innerText = "Masukkan minimal 2 angka!";
+                return;
+            }
+
+            const hasil = cariAngkaHilang(arrayAngka);
+
+            document.getElementById("hasil").innerText =
+                "Angka yang hilang adalah: " + hasil;
+        }
+    </script>
+
+</body>
+</html>
